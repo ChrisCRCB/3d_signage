@@ -87,7 +87,7 @@ module multiline_text(
 }
 
 // A sign with a backing.
-module sign(lines, text_thickness = 1, backing_thickness = 2, radii = 10, border = true, size = 18, font = "Liberation Sans", spacing = 1, line_spacing = 3, pad_x = 10, pad_y = 10) {
+module sign(lines, text_thickness = 1, backing_thickness = 2, radii = 10, border = true, size = 18, font = "Liberation Sans", spacing = 1, line_spacing = 10, pad_x = 10, pad_y = 30) {
   target = total_text_size(lines, size=size, font=font, spacing=spacing, line_spacing=line_spacing);
   echo([radii + pad_x + target.x + pad_x + radii, radii + pad_y + target.y + pad_y + radii]);
   backing_size = [pad_x + target.x + pad_x, pad_y + target.y + pad_y];
