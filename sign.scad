@@ -89,7 +89,7 @@ module multiline_text(
 // A sign with a backing.
 module sign(lines, text_thickness = 1, backing_thickness = 2, radii = 10, border = true, size = 18, font = "Liberation Sans", spacing = 1, line_spacing = 3, pad_x = 10, pad_y = 10) {
   target = total_text_size(lines, size=size, font=font, spacing=spacing, line_spacing=line_spacing);
-  echo(target);
+  echo([radii + pad_x + target.x + pad_x + radii, radii + pad_y + target.y + pad_y + radii]);
   backing_size = [pad_x + target.x + pad_x, pad_y + target.y + pad_y];
   translate([radii, radii, 0])
     linear_extrude(height=backing_thickness)
@@ -116,5 +116,19 @@ module sign(lines, text_thickness = 1, backing_thickness = 2, radii = 10, border
       );
 }
 
+module keyring(lines, text_thickness = 1, backing_thickness = 2, radii = 15, border = true, size = 8, font = "Liberation Sans", spacing = 1, line_spacing = 1, pad_x = 3, pad_y = 3, hole_base = 5, hole_size = 2) {
+  sign(lines=lines, text_thickness=text_thickness, backing_thickness=backing_thickness, radii=radii, border=border, size=size, font=font, spacing=spacing, line_spacing=line_spacing, pad_x=pad_x, pad_y=pad_y);
+  target = total_text_size(lines, size=size, font=font, spacing=spacing, line_spacing=line_spacing);
+  overall = [radii + pad_x + target.x + pad_x + radii, radii + pad_y + target.y + pad_y + radii];
+  hole_centre = [overall.x + hole_base, overall.y / 2];
+  echo("hole", hole_centre);
+  translate(hole_centre) {
+    difference() {
+      cylinder(h=backing_thickness, r=hole_base);
+      cylinder(h=backing_thickness, r=hole_size);
+    }
+  }
+}
+
 // Produce a sign.
-sign(["Coventry Comets", "Showdown Club"], size=8, font="Liberation Mono", line_spacing=1.5, pad_x=2, pad_y=2);
+keyring(["Coventry Comets", "Showdown Club"]);
