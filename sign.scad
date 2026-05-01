@@ -116,16 +116,17 @@ module sign(lines, text_thickness = 1, backing_thickness = 2, radii = 10, border
       );
 }
 
-module keyring(lines, text_thickness = 1, backing_thickness = 2, radii = 15, border = true, size = 8, font = "Liberation Sans", spacing = 1, line_spacing = 1, pad_x = 3, pad_y = 3, hole_base = 5, hole_size = 2) {
+module keyring(lines, text_thickness = 1, backing_thickness = 2, radii = 3, border = true, size = 8, font = "Liberation Sans", spacing = 1, line_spacing = 1, pad_x = 1, pad_y = 3, hole_base = 5, hole_size = 2) {
   sign(lines=lines, text_thickness=text_thickness, backing_thickness=backing_thickness, radii=radii, border=border, size=size, font=font, spacing=spacing, line_spacing=line_spacing, pad_x=pad_x, pad_y=pad_y);
   target = total_text_size(lines, size=size, font=font, spacing=spacing, line_spacing=line_spacing);
   overall = [radii + pad_x + target.x + pad_x + radii, radii + pad_y + target.y + pad_y + radii];
-  hole_centre = [overall.x + hole_base, overall.y / 2];
+  hole_centre = [overall.x + (hole_base / 2), overall.y / 2];
   echo("hole", hole_centre);
+  hole_thickness = border ? (backing_thickness + text_thickness) : backing_thickness;
   translate(hole_centre) {
     difference() {
-      cylinder(h=backing_thickness, r=hole_base);
-      cylinder(h=backing_thickness, r=hole_size);
+      cylinder(h=hole_thickness, r=hole_base);
+      cylinder(h=hole_thickness, r=hole_size);
     }
   }
 }
