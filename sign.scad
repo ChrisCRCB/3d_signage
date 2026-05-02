@@ -2,6 +2,7 @@ $fn = 100;
 
 // Make `string` fit into `size`, using `textmetrics`.
 module resize_text(string, target, size = 20, font = "Liberation Sans") {
+  $fn = 16;
   halign = "left";
   valign = "bottom";
   m = textmetrics(string, size=size, font=font);
@@ -55,6 +56,7 @@ module multiline_text(
   spacing,
   line_spacing,
 ) {
+  $fn = 16;
   halign = "left";
   valign = "bottom";
   reversed_lines = reverse_list(lines);
@@ -81,7 +83,7 @@ module multiline_text(
         font=font,
         spacing=spacing,
         halign=halign,
-        valign=valign
+        valign=valign,
       );
   }
 }
@@ -132,4 +134,4 @@ module keyring(lines, text_thickness = 1, backing_thickness = 2, radii = 3, bord
 }
 
 // Produce a sign.
-keyring(["Coventry Comets", "Showdown Club"]);
+keyring(["Hello", "OpenSCAD"]);
