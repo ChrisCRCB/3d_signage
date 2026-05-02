@@ -38,7 +38,7 @@ module sign_backing(
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10,
-  screw_holes_radii = 2.6,
+  screw_holes_radii = 2.2,
 ) {
   dims = sign_dimensions(
     braille_lines,
@@ -59,7 +59,9 @@ module sign_backing(
   }
 
   module screw_hole() {
-    cylinder(h=backing_thickness + text_thickness, r=screw_hole_radii);
+    cylinder(
+      h=1 + backing_thickness + print_thickness + 1, r=screw_holes_radii, $fn=64,
+    );
   }
 
   difference() {
@@ -79,13 +81,15 @@ module sign_backing(
           }
       }
     }
-    translate([radii / 2, radii / 2, 0])
+
+    screw_hole_offset = radii / 2;
+    translate([screw_hole_offset, screw_hole_offset, -1])
       screw_hole();
-    translate([radii + x + (radii / 2), radii / 2, 0])
+    translate([radii + x + screw_hole_offset, screw_hole_offset, -1])
       screw_hole();
-    translate([radii / 2, radii + y + (radii / 2), 0])
+    translate([screw_hole_offset, radii + y + screw_hole_offset, -1])
       screw_hole();
-    translate([radii + x + (radii / 2), radii + y + (radii / 2), 0])
+    translate([radii + x + screw_hole_offset, radii + y + screw_hole_offset, -1])
       screw_hole();
   }
 }
@@ -132,7 +136,7 @@ module sign(
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10,
-  screw_holes_radii = 2.6,
+  screw_holes_radii = 2.2,
 ) {
   dims = sign_dimensions(
     braille_lines,
@@ -145,7 +149,7 @@ module sign(
     pad_x,
     pad_y
   );
-  echo(dims[0], dims[1]);
+  echo(radii + dims[0] + radii, radii + dims[1] + radii);
   sign_backing(
     braille_lines,
     print_lines,
@@ -193,4 +197,4 @@ print_lines = ["Activities and", "Volunteers Manager"];
 
 // sign_backing(braille_lines, print_lines);
 // sign_content(braille_lines, print_lines);
-sign(braille_lines=braille_lines, print_lines=print_lines, print_size=18);
+sign(braille_lines=braille_lines, print_lines=print_lines, print_size=16);
