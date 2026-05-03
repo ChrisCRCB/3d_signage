@@ -83,13 +83,13 @@ module sign_backing(
     }
 
     screw_hole_offset = radii / 2;
-    translate([screw_hole_offset, screw_hole_offset, -1])
+    translate([screw_hole_offset, radii, -1])
       screw_hole();
-    translate([radii + x + screw_hole_offset, screw_hole_offset, -1])
+    translate([radii + x + screw_hole_offset, radii, -1])
       screw_hole();
-    translate([screw_hole_offset, radii + y + screw_hole_offset, -1])
+    translate([screw_hole_offset, radii + y, -1])
       screw_hole();
-    translate([radii + x + screw_hole_offset, radii + y + screw_hole_offset, -1])
+    translate([radii + x + screw_hole_offset, radii + y, -1])
       screw_hole();
   }
 }
