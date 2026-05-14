@@ -1,13 +1,16 @@
 use <sign.scad>;
 use <../braille.scad/braille.scad>;
 
+// The default for text spacing.
+default_print_spacing = 1.18;
+
 function sign_dimensions(
   braille_lines,
   print_lines,
   between_braille_and_print = 30,
   print_size = 20,
   print_font = "Liberation Sans",
-  print_spacing = 1,
+  print_spacing = default_print_spacing,
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10
@@ -34,7 +37,7 @@ module sign_backing(
   border = true,
   print_size = 20,
   print_font = "Liberation Sans",
-  print_spacing = 1,
+  print_spacing = default_print_spacing,
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10,
@@ -103,7 +106,7 @@ module sign_content(
   radii = 10,
   print_size = 20,
   print_font = "Liberation Sans",
-  print_spacing = 1,
+  print_spacing = default_print_spacing,
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10
@@ -116,7 +119,10 @@ module sign_content(
     translate([radii + pad_x, radii + pad_y + braille_height + between_braille_and_print, backing_thickness])
       linear_extrude(height=print_thickness)
         multiline_text(
-          print_lines, size=print_size, font=print_font, spacing=print_spacing,
+          print_lines,
+          size=print_size,
+          font=print_font,
+          spacing=print_spacing,
           line_spacing=print_line_spacing
         );
   }
@@ -132,7 +138,7 @@ module sign(
   border = true,
   print_size = 20,
   print_font = "Liberation Sans",
-  print_spacing = 1,
+  print_spacing = default_print_spacing,
   print_line_spacing = 10,
   pad_x = 10,
   pad_y = 10,
