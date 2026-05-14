@@ -1,3 +1,4 @@
+import re
 import sys
 import subprocess
 from pathlib import Path
@@ -117,7 +118,18 @@ def main(filename: Path) -> None:
         (content_scad, content_stl),
         (sign_scad, sign_stl),
     ]:
-        subprocess.run(["openscad", "--enable", "all", scad, "-o", stl], check=True)
+        result = subprocess.run(
+            ["openscad", "--enable", "all", scad, "-o", stl],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        for line in result.stderr.split("\n"):
+            match = re.match(r"ECHO:\s*([0-9.]+),\s*([0-9.]+)", line)
+            if match is not None:
+                x = float(match.group(1))
+                y = float(match.group(2))
+                print(f"{basename}: {x} x {y}")
 
 
 if __name__ == "__main__":
