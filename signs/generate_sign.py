@@ -80,7 +80,7 @@ def main(filename: Path) -> None:
         json = load(f)
         settings = SignSettings.from_json(json)
     arguments = generate_arguments(settings)
-    top_import = "use <../../braille_and_print.scad>;"
+    top_import = "use <../braille_and_print.scad>;"
     directory = filename.parent
     backing_filename = "backing"
     content_filename = "content"
@@ -96,21 +96,22 @@ def main(filename: Path) -> None:
     )
     sign_code: list[str] = [top_import, "sign("] + arguments + [");"]
 
-    backing_scad = directory / f"{backing_filename}.scad"
+    basename = filename.stem
+    backing_scad = directory / f"{basename}_{backing_filename}.scad"
     with open(backing_scad, "w", encoding="utf-8") as f:
         f.write("\n".join(backing_code))
 
-    content_scad = directory / f"{content_filename}.scad"
+    content_scad = directory / f"{basename}_{content_filename}.scad"
     with open(content_scad, "w", encoding="utf-8") as f:
         f.write("\n".join(content_code))
 
-    sign_scad = directory / "sign.scad"
-    sign_stl = directory / "sign.stl"
+    sign_scad = directory / f"{basename}_sign.scad"
     with open(sign_scad, "w", encoding="utf-8") as f:
         f.write("\n".join(sign_code))
 
-    backing_stl = directory / f"{backing_filename}.stl"
-    content_stl = directory / f"{content_filename}.stl"
+    backing_stl = directory / f"{basename}_{backing_filename}.stl"
+    content_stl = directory / f"{basename}_{content_filename}.stl"
+    sign_stl = directory / f"{basename}_sign.stl"
     for scad, stl in [
         (backing_scad, backing_stl),
         (content_scad, content_stl),
@@ -120,4 +121,5 @@ def main(filename: Path) -> None:
 
 
 if __name__ == "__main__":
-    main(Path(sys.argv[1]))
+    for filename in sys.argv[1:]:
+        main(Path(filename))

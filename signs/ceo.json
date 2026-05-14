@@ -1,0 +1,21 @@
+{
+  "braille_lines": [
+    "⠠⠡⠊⠑⠋⠀⠠⠑⠭⠑⠉⠥⠞⠊⠧⠑⠀⠠⠷⠋⠊⠉⠻"
+  ],
+  "print_lines": [
+    "Chief Executive",
+    "Officer"
+  ],
+  "between_braille_and_print": 30,
+  "print_thickness": 1,
+  "backing_thickness": 2,
+  "radii": 10,
+  "border": true,
+  "print_size": 16,
+  "print_font": "Liberation Sans",
+  "print_spacing": 1.18,
+  "print_line_spacing": 10,
+  "pad_x": 10,
+  "pad_y": 10,
+  "screw_holes_radii": 2.2
+}
